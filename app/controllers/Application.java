@@ -32,11 +32,19 @@ public class Application extends Controller {
     }
     
     @Transactional
-    public static Result listarPedidos(String nome, String endereco, String telefone, String pedido) {
+    public static Result listarPedidos() {
     	
     	List<Pedido> pedidos = JPA.em().createQuery("FROM Pedido").getResultList();
-    	
         return ok(Json.toJson(pedidos));
+    }
+    
+    @Transactional
+    public static Result finalizarPedido(int idPedido) {
+    	
+    	Pedido pedido = JPA.em().find(Pedido.class, idPedido);
+    	pedido.isEntregue = true;
+    	
+        return ok(Json.toJson("ok"));
     }
   
 }
